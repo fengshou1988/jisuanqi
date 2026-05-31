@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丰收计算器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 固定软件名称，防止乱码 */
+        .app-title {
+            font-family: "Microsoft YaHei", sans-serif !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-6 max-w-3xl mx-auto">
+    <!-- 固定软件名称：丰收计算器 -->
+    <h1 class="app-title text-3xl font-bold text-center mb-6 text-gray-800">丰收计算器</h1>
+
+    <!-- 3个核心功能切换按钮 -->
+    <div class="flex flex-wrap gap-3 mb-6 justify-center">
+        <button onclick="showModule(1)" class="bg-blue-600 text-white px-5 py-3 rounded font-bold hover:bg-blue-700 transition">
+            ① 未全仓中签计算
+        </button>
+        <button onclick="showModule(2)" class="bg-green-600 text-white px-5 py-3 rounded font-bold hover:bg-green-700 transition">
+            ② 全仓中签计算
+        </button>
+        <button onclick="showModule(3)" class="bg-purple-600 text-white px-5 py-3 rounded font-bold hover:bg-purple-700 transition">
+            ③ 复利计算
+        </button>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 模块1：未全仓中签计算（中签比例） -->
+    <div id="module1" class="bg-white p-6 rounded-lg shadow-md block">
+        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">未全仓中签计算</h2>
+        <div class="space-y-3">
+            <div>
+                <label class="font-bold block mb-1">输入原始价</label>
+                <input id="price1" type="number" step="0.0001" placeholder="原始价" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">折扣（0.8=8折）</label>
+                <input id="discount1" type="number" step="0.0001" placeholder="折扣" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">仓位总金额</label>
+                <input id="money1" type="number" step="0.0001" placeholder="仓位资金" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">中签比例（50=50%）</label>
+                <input id="posRate1" type="number" step="0.01" placeholder="中签比例" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">收益百分比（%）</label>
+                <input id="profitRate1" type="number" step="0.01" placeholder="收益比例" class="w-full border p-2 rounded">
+            </div>
+        </div>
+        <div class="flex gap-3 mt-4">
+            <button onclick="calcModule1()" class="flex-1 bg-blue-600 text-white p-2 rounded font-bold">计算</button>
+            <button onclick="resetModule1()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div class="mt-5 p-4 bg-gray-50 rounded-lg space-y-2 text-sm">
+            <p>✅ 折后价：<span id="m1_res1" class="font-bold text-green-600">0.00</span></p>
+            <p>✅ 未全仓中签收益：<span id="m1_res2" class="font-bold text-green-600">0.00</span></p>
+            <p>✅ 未全仓中签最终金额：<span id="m1_res3" class="font-bold text-red-600">0.00</span></p>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 模块2：全仓中签计算 -->
+    <div id="module2" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">全仓中签计算</h2>
+        <div class="space-y-3">
+            <div>
+                <label class="font-bold block mb-1">输入原始价</label>
+                <input id="price2" type="number" step="0.0001" placeholder="原始价" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">折扣（0.8=8折）</label>
+                <input id="discount2" type="number" step="0.0001" placeholder="折扣" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">仓位总金额</label>
+                <input id="money2" type="number" step="0.0001" placeholder="仓位资金" class="w-full border p-2 rounded">
+            </div>
+            <div>
+                <label class="font-bold block mb-1">收益百分比（%）</label>
+                <input id="profitRate2" type="number" step="0.01" placeholder="收益比例" class="w-full border p-2 rounded">
+            </div>
+        </div>
+        <div class="flex gap-3 mt-4">
+            <button onclick="calcModule2()" class="flex-1 bg-green-600 text-white p-2 rounded font-bold">计算</button>
+            <button onclick="resetModule2()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div class="mt-5 p-4 bg-gray-50 rounded-lg space-y-2 text-sm">
+            <p>✅ 折后价：<span id="m2_res1" class="font-bold text-green-600">0.00</span></p>
+            <p>✅ 全仓中签收益：<span id="m2_res4" class="font-bold text-green-600">0.00</span></p>
+            <p>✅ 全仓中签最终金额：<span id="m2_res5" class="font-bold text-red-600">0.00</span></p>
+            <p>✅ 可申购股数：<span id="m2_res6" class="font-bold text-blue-600">0</span></p>
+            <p>✅ 可申购股数（推荐）：<span id="m2_res7" class="font-bold text-blue-600">0</span></p>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- 模块3：复利计算 -->
+    <div id="module3" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">复利计算（每日收益率）</h2>
+        <div class="mb-4">
+            <label class="font-bold block mb-1">初始本金</label>
+            <input type="number" id="compoundMoney" placeholder="输入初始本金" value="1000" class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="font-bold block mb-1">计算天数（最多30天）</label>
+            <input type="number" id="compoundDays" placeholder="输入天数" value="10" oninput="createRateInputs()" class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="font-bold block mb-1">每日收益率（%）</label>
+            <div id="rateList" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+        <div class="flex gap-3 mb-5">
+            <button onclick="calcModule3()" class="flex-1 bg-purple-600 text-white p-2 rounded font-bold">开始计算</button>
+            <button onclick="resetModule3()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空重置</button>
+        </div>
+        <div id="compoundResult" class="max-h-64 overflow-y-auto p-3 bg-gray-50 rounded text-sm"></div>
+    </div>
+
+<script>
+    // ==================== 模块切换功能 ====================
+    function showModule(num) {
+        document.getElementById('module1').classList.add('hidden');
+        document.getElementById('module2').classList.add('hidden');
+        document.getElementById('module3').classList.add('hidden');
+        document.getElementById('module'+num).classList.remove('hidden');
+    }
+
+    // ==================== 模块1：未全仓中签计算 ====================
+    function calcModule1() {
+        let price = +document.getElementById('price1').value || 0;
+        let discount = +document.getElementById('discount1').value || 1;
+        let money = +document.getElementById('money1').value || 0;
+        let posRate = +document.getElementById('posRate1').value || 0;
+        let profitRate = +document.getElementById('profitRate1').value || 0;
+
+        let res1 = price * discount;
+        let res2 = money * (posRate / 100) * (profitRate / 100);
+        let res3 = res2 + money;
+        let res6 = res1 > 0 ? Math.floor(money / res1) : 0;
+        let res7 = res1 > 0 ? Math.floor(money / res1 / 100) * 100 : 0;
+
+        document.getElementById('m1_res1').innerText = res1.toFixed(4);
+        document.getElementById('m1_res2').innerText = res2.toFixed(4);
+        document.getElementById('m1_res3').innerText = res3.toFixed(4);
+        document.getElementById('m1_res6').innerText = res6;
+        document.getElementById('m1_res7').innerText = res7;
+    }
+    function resetModule1() {
+        document.getElementById('price1').value = '';
+        document.getElementById('discount1').value = '';
+        document.getElementById('money1').value = '';
+        document.getElementById('posRate1').value = '';
+        document.getElementById('profitRate1').value = '';
+        document.getElementById('m1_res1').innerText = '0.00';
+        document.getElementById('m1_res2').innerText = '0.00';
+        document.getElementById('m1_res3').innerText = '0.00';
+            }
+
+    // ==================== 模块2：全仓中签计算 ====================
+    function calcModule2() {
+        let price = +document.getElementById('price2').value || 0;
+        let discount = +document.getElementById('discount2').value || 1;
+        let money = +document.getElementById('money2').value || 0;
+        let profitRate = +document.getElementById('profitRate2').value || 0;
+
+        let res1 = price * discount;
+        let res4 = money * (profitRate / 100);
+        let res5 = res4 + money;
+        let res6 = res1 > 0 ? Math.floor(money / res1) : 0;
+        let res7 = res1 > 0 ? Math.floor(money / res1 / 100) * 100 : 0;
+
+        document.getElementById('m2_res1').innerText = res1.toFixed(4);
+        document.getElementById('m2_res4').innerText = res4.toFixed(4);
+        document.getElementById('m2_res5').innerText = res5.toFixed(4);
+        document.getElementById('m2_res6').innerText = res6;
+        document.getElementById('m2_res7').innerText = res7;
+    }
+    function resetModule2() {
+        document.getElementById('price2').value = '';
+        document.getElementById('discount2').value = '';
+        document.getElementById('money2').value = '';
+        document.getElementById('profitRate2').value = '';
+        document.getElementById('m2_res1').innerText = '0.00';
+        document.getElementById('m2_res4').innerText = '0.00';
+        document.getElementById('m2_res5').innerText = '0.00';
+        document.getElementById('m2_res6').innerText = '0';
+        document.getElementById('m2_res7').innerText = '0';
+    }
+
+    // ==================== 模块3：复利计算 ====================
+    createRateInputs(); // 初始化
+    function createRateInputs() {
+        let days = parseInt(document.getElementById('compoundDays').value) || 1;
+        days = Math.max(1, Math.min(30, days));
+        let html = '';
+        for(let i=1; i<=days; i++) {
+            html += `<div class="w-20"><input placeholder="第${i}天%" type="number" class="day-rate w-full p-1 border rounded" value="10"></div>`;
+        }
+        document.getElementById('rateList').innerHTML = html;
+    }
+    function calcModule3() {
+        let ben = Number(document.getElementById('compoundMoney').value);
+        let days = Number(document.getElementById('compoundDays').value);
+        let rates = document.querySelectorAll('.day-rate');
+        if(!ben || ben <=0 || days <1 || days>30) { alert("输入合法数字（天数1-30）"); return; }
+        
+        let current = ben;
+        let html = "";
+        for(let i=0; i<days; i++) {
+            let r = Number(rates[i].value) || 0;
+            current = current * (1 + r/100);
+            html += `<div class="py-1">第 ${i+1} 天（${r}%）：${current.toFixed(2)}</div>`;
+        }
+        html += `<div class="font-bold text-red-600 mt-2 pt-2 border-t">✅ 最终本金：${current.toFixed(2)}</div>`;
+        document.getElementById('compoundResult').innerHTML = html;
+    }
+    function resetModule3() {
+        document.getElementById('compoundMoney').value = "";
+        document.getElementById('compoundDays').value = "10";
+        createRateInputs();
+        document.getElementById('compoundResult').innerHTML = "";
+    }
+</script>
+</body>
+</html>
