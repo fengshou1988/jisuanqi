@@ -3,329 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>丰收计算器</title>
+    <title>丰收全能计算器</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .app-title {
-            font-family: "Microsoft YaHei", sans-serif !important;
-        }
+        .app-title { font-family: "Microsoft YaHei", sans-serif !important; }
     </style>
 </head>
-<body class="bg-gray-100 p-4 md:p-6 max-w-3xl mx-auto">
-    <h1 class="app-title text-3xl font-bold text-center mb-6 text-gray-800">丰收计算器</h1>
+<body class="bg-gray-100 p-4 md:p-6 max-w-4xl mx-auto">
+    <h1 class="app-title text-3xl font-bold text-center mb-6 text-gray-800">丰收全能计算器</h1>
 
-    <div class="flex flex-wrap gap-3 mb-6 justify-center">
-        <button onclick="showModule(1)" class="bg-blue-600 text-white px-5 py-3 rounded font-bold hover:bg-blue-700 transition">
-            ① 未全仓中签计算
-        </button>
-        <button onclick="showModule(2)" class="bg-green-600 text-white px-5 py-3 rounded font-bold hover:bg-green-700 transition">
-            ② 全仓中签计算
-        </button>
-        <button onclick="showModule(3)" class="bg-purple-600 text-white px-5 py-3 rounded font-bold hover:bg-purple-700 transition">
-            ③ 复利计算
-        </button>
-        <button onclick="showModule(4)" class="bg-orange-600 text-white px-5 py-3 rounded font-bold hover:bg-orange-700 transition">
-            ④ 仓位计算器
-        </button>
+    <div class="flex flex-wrap gap-2 mb-6 justify-center">
+        <button onclick="showModule(1)" class="bg-blue-600 text-white px-3 py-2 rounded text-sm">未全仓中签</button>
+        <button onclick="showModule(2)" class="bg-green-600 text-white px-3 py-2 rounded text-sm">全仓中签</button>
+        <button onclick="showModule(3)" class="bg-purple-600 text-white px-3 py-2 rounded text-sm">复利计算</button>
+        <button onclick="showModule(4)" class="bg-orange-600 text-white px-3 py-2 rounded text-sm">仓位计算</button>
+        <button onclick="showModule(5)" class="bg-teal-600 text-white px-3 py-2 rounded text-sm">定投计算</button>
+        <button onclick="showModule(6)" class="bg-red-600 text-white px-3 py-2 rounded text-sm">加仓成本</button>
+        <button onclick="showModule(7)" class="bg-pink-600 text-white px-3 py-2 rounded text-sm">止盈止损</button>
+        <button onclick="showModule(8)" class="bg-indigo-600 text-white px-3 py-2 rounded text-sm">盈亏计算</button>
+        <button onclick="showModule(9)" class="bg-yellow-600 text-white px-3 py-2 rounded text-sm">网格交易</button>
     </div>
 
-    <!-- 模块1：未全仓中签计算 -->
+    <!-- 模块1 -->
     <div id="module1" class="bg-white p-6 rounded-lg shadow-md block">
-        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">未全仓中签计算</h2>
+        <h2 class="text-xl font-bold text-center mb-5">未全仓中签计算</h2>
         <div class="space-y-3">
-            <div>
-                <label class="font-bold block mb-1">输入原始价</label>
-                <input id="price1" type="number" step="0.0001" placeholder="原始价" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">折扣（0.8=8折）</label>
-                <input id="discount1" type="number" step="0.0001" placeholder="折扣" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">仓位总金额</label>
-                <input id="money1" type="number" step="0.0001" placeholder="仓位资金" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">中签比例（50=50%）</label>
-                <input id="posRate1" type="number" step="0.01" placeholder="中签比例" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">收益百分比（%）</label>
-                <input id="profitRate1" type="number" step="0.01" placeholder="收益比例" class="w-full border p-2 rounded">
-            </div>
+            <div><label class="font-bold block">原始价</label><input id="price1" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">折扣</label><input id="discount1" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">总资金</label><input id="money1" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">中签比例%</label><input id="posRate1" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">收益比例%</label><input id="profitRate1" type="number" class="w-full border p-2 rounded"></div>
         </div>
         <div class="flex gap-3 mt-4">
-            <button onclick="calcModule1()" class="flex-1 bg-blue-600 text-white p-2 rounded font-bold">计算</button>
+            <button onclick="calcModule1()" class="flex-1 bg-blue-600 text-white p-2 rounded">计算</button>
             <button onclick="resetModule1()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
         </div>
-        <div class="mt-5 p-4 bg-gray-50 rounded-lg space-y-2 text-sm">
-            <p>✅ 折后价：<span id="m1_res1" class="font-bold text-green-600">0.00</span></p>
-            <p>✅ 未全仓中签收益：<span id="m1_res2" class="font-bold text-green-600">0.00</span></p>
-            <p>✅ 未全仓中签最终金额：<span id="m1_res3" class="font-bold text-red-600">0.00</span></p>
+        <div class="mt-5 p-4 bg-gray-50 rounded space-y-1">
+            <p>折后价：<span id="m1_res1" class="font-bold text-green-600">0</span></p>
+            <p>收益：<span id="m1_res2" class="font-bold text-green-600">0</span></p>
+            <p>最终金额：<span id="m1_res3" class="font-bold text-red-600">0</span></p>
         </div>
     </div>
 
-    <!-- 模块2：全仓中签计算 -->
+    <!-- 模块2 -->
     <div id="module2" class="bg-white p-6 rounded-lg shadow-md hidden">
-        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">全仓中签计算</h2>
+        <h2 class="text-xl font-bold text-center mb-5">全仓中签计算</h2>
         <div class="space-y-3">
-            <div>
-                <label class="font-bold block mb-1">输入原始价</label>
-                <input id="price2" type="number" step="0.0001" placeholder="原始价" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">折扣（0.8=8折）</label>
-                <input id="discount2" type="number" step="0.0001" placeholder="折扣" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">仓位总金额</label>
-                <input id="money2" type="number" step="0.0001" placeholder="仓位资金" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">收益百分比（%）</label>
-                <input id="profitRate2" type="number" step="0.01" placeholder="收益比例" class="w-full border p-2 rounded">
-            </div>
+            <div><label class="font-bold block">原始价</label><input id="price2" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">折扣</label><input id="discount2" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">总资金</label><input id="money2" type="number" class="w-full border p-2 rounded"></div>
+            <div><label class="font-bold block">收益比例%</label><input id="profitRate2" type="number" class="w-full border p-2 rounded"></div>
         </div>
         <div class="flex gap-3 mt-4">
-            <button onclick="calcModule2()" class="flex-1 bg-green-600 text-white p-2 rounded font-bold">计算</button>
+            <button onclick="calcModule2()" class="flex-1 bg-green-600 text-white p-2 rounded">计算</button>
             <button onclick="resetModule2()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
         </div>
-        <div class="mt-5 p-4 bg-gray-50 rounded-lg space-y-2 text-sm">
-            <p>✅ 折后价：<span id="m2_res1" class="font-bold text-green-600">0.00</span></p>
-            <p>✅ 全仓中签收益：<span id="m2_res4" class="font-bold text-green-600">0.00</span></p>
-            <p>✅ 全仓中签最终金额：<span id="m2_res5" class="font-bold text-red-600">0.00</span></p>
-            <p>✅ 可申购股数：<span id="m2_res6" class="font-bold text-blue-600">0</span></p>
-            <p>✅ 可申购股数（推荐）：<span id="m2_res7" class="font-bold text-blue-600">0</span></p>
+        <div class="mt-5 p-4 bg-gray-50 rounded space-y-1">
+            <p>折后价：<span id="m2_res1" class="font-bold text-green-600">0</span></p>
+            <p>收益：<span id="m2_res4" class="font-bold text-green-600">0</span></p>
+            <p>最终金额：<span id="m2_res5" class="font-bold text-red-600">0</span></p>
+            <p>可买股数：<span id="m2_res6" class="font-bold text-blue-600">0</span></p>
         </div>
     </div>
 
-    <!-- 模块3：复利计算 -->
+    <!-- 模块3 -->
     <div id="module3" class="bg-white p-6 rounded-lg shadow-md hidden">
-        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">复利计算（每日收益率）</h2>
-        <div class="mb-4">
-            <label class="font-bold block mb-1">初始本金</label>
-            <input type="number" id="compoundMoney" placeholder="输入初始本金" value="1000" class="w-full border p-2 rounded">
+        <h2 class="text-xl font-bold text-center mb-5">复利计算</h2>
+        <div class="mb-3"><label>本金</label><input id="compoundMoney" value="1000" class="w-full border p-2 rounded"></div>
+        <div class="mb-3"><label>天数</label><input id="compoundDays" value="10" oninput="createRateInputs()" class="w-full border p-2 rounded"></div>
+        <div class="mb-3"><label>每日收益率</label><div id="rateList" class="flex flex-wrap gap-1"></div></div>
+        <div class="flex gap-3">
+            <button onclick="calcModule3()" class="flex-1 bg-purple-600 text-white p-2 rounded">计算</button>
+            <button onclick="resetModule3()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
         </div>
-        <div class="mb-4">
-            <label class="font-bold block mb-1">计算天数（最多30天）</label>
-            <input type="number" id="compoundDays" placeholder="输入天数" value="10" oninput="createRateInputs()" class="w-full border p-2 rounded">
-        </div>
-        <div class="mb-4">
-            <label class="font-bold block mb-1">每日收益率（%）</label>
-            <div id="rateList" class="flex flex-wrap gap-2 mt-2"></div>
-        </div>
-        <div class="flex gap-3 mb-5">
-            <button onclick="calcModule3()" class="flex-1 bg-purple-600 text-white p-2 rounded font-bold">开始计算</button>
-            <button onclick="resetModule3()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空重置</button>
-        </div>
-        <div id="compoundResult" class="max-h-64 overflow-y-auto p-3 bg-gray-50 rounded text-sm"></div>
+        <div id="compoundResult" class="mt-4 p-3 bg-gray-50 rounded text-sm max-h-64 overflow-y-auto"></div>
     </div>
 
-    <!-- 模块4：仓位计算器 -->
+    <!-- 模块4 -->
     <div id="module4" class="bg-white p-6 rounded-lg shadow-md hidden">
-        <h2 class="text-xl font-bold text-center mb-5 text-gray-700">📊 仓位计算器</h2>
-        
-        <div class="space-y-3 mb-6">
-            <div>
-                <label class="font-bold block mb-1">总资金 (元)</label>
-                <input id="cap" type="number" placeholder="例如 10000" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">风险比例 (%)</label>
-                <input id="riskp" type="number" placeholder="例如 1" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">入场价</label>
-                <input id="entry" type="number" placeholder="例如 10.5" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">止损价</label>
-                <input id="stop" type="number" placeholder="例如 9.8" class="w-full border p-2 rounded">
-            </div>
+        <h2 class="text-xl font-bold text-center mb-5">仓位计算器</h2>
+        <div class="space-y-3">
+            <div><label>总资金</label><input id="cap" class="w-full border p-2 rounded"></div>
+            <div><label>风险比例%</label><input id="riskp" class="w-full border p-2 rounded"></div>
+            <div><label>入场价</label><input id="entry" class="w-full border p-2 rounded"></div>
+            <div><label>止损价</label><input id="stop" class="w-full border p-2 rounded"></div>
         </div>
-
-        <div class="flex gap-3">
-            <button onclick="calcPosition()" class="flex-1 bg-orange-600 text-white p-2 rounded font-bold">计算仓位</button>
+        <div class="flex gap-3 mt-3">
+            <button onclick="calcPosition()" class="flex-1 bg-orange-600 text-white p-2 rounded">计算</button>
             <button onclick="resetModule4()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
         </div>
-
-        <div id="posResult" class="mt-4 p-3 bg-gray-50 rounded whitespace-pre-line text-sm"></div>
-
-        <hr class="my-6">
-
-        <h3 class="text-lg font-bold mb-3">🎲 凯利公式（最优仓位）</h3>
-        <div class="space-y-3 mb-4">
-            <div>
-                <label class="font-bold block mb-1">胜率 (%)</label>
-                <input id="winp" type="number" placeholder="例如 55" class="w-full border p-2 rounded">
-            </div>
-            <div>
-                <label class="font-bold block mb-1">盈亏比 (赢/亏)</label>
-                <input id="wr" type="number" placeholder="例如 2" class="w-full border p-2 rounded">
-            </div>
+        <div id="posResult" class="mt-4 p-3 bg-gray-50 rounded whitespace-pre-line"></div>
+        <hr class="my-4">
+        <h3 class="font-bold mb-2">凯利公式</h3>
+        <div class="space-y-3">
+            <div><label>胜率%</label><input id="winp" class="w-full border p-2 rounded"></div>
+            <div><label>盈亏比</label><input id="wr" class="w-full border p-2 rounded"></div>
         </div>
+        <button onclick="calcKelly()" class="w-full mt-3 bg-teal-600 text-white p-2 rounded">计算</button>
+        <div id="kellyResult" class="mt-3 p-3 bg-gray-50 rounded"></div>
+    </div>
 
-        <button onclick="calcKelly()" class="w-full bg-teal-600 text-white p-2 rounded font-bold">计算凯利仓位</button>
-        <div id="kellyResult" class="mt-4 p-3 bg-gray-50 rounded whitespace-pre-line text-sm"></div>
+    <!-- 模块5 定投 -->
+    <div id="module5" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5">定投计算器</h2>
+        <div class="space-y-3">
+            <div><label>每月投入</label><input id="m5_month" class="w-full border p-2 rounded"></div>
+            <div><label>年化收益%</label><input id="m5_rate" class="w-full border p-2 rounded"></div>
+            <div><label>定投年数</label><input id="m5_year" class="w-full border p-2 rounded"></div>
+        </div>
+        <div class="flex gap-3 mt-3">
+            <button onclick="calcModule5()" class="flex-1 bg-teal-600 text-white p-2 rounded">计算</button>
+            <button onclick="resetModule5()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div id="m5_result" class="mt-4 p-3 bg-gray-50 rounded whitespace-pre-line"></div>
+    </div>
+
+    <!-- 模块6 加仓成本 -->
+    <div id="module6" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5">加仓成本计算器</h2>
+        <div class="space-y-3">
+            <div><label>原持仓数量</label><input id="m6_old_cnt" class="w-full border p-2 rounded"></div>
+            <div><label>原成本价</label><input id="m6_old_p" class="w-full border p-2 rounded"></div>
+            <div><label>加仓数量</label><input id="m6_add_cnt" class="w-full border p-2 rounded"></div>
+            <div><label>加仓价格</label><input id="m6_add_p" class="w-full border p-2 rounded"></div>
+        </div>
+        <div class="flex gap-3 mt-3">
+            <button onclick="calcModule6()" class="flex-1 bg-red-600 text-white p-2 rounded">计算</button>
+            <button onclick="resetModule6()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div id="m6_result" class="mt-4 p-3 bg-gray-50 rounded"></div>
+    </div>
+
+    <!-- 模块7 止盈止损 -->
+    <div id="module7" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5">止盈止损计算器</h2>
+        <div class="space-y-3">
+            <div><label>成本价</label><input id="m7_cost" class="w-full border p-2 rounded"></div>
+            <div><label>止盈比例%</label><input id="m7_profit" class="w-full border p-2 rounded"></div>
+            <div><label>止损比例%</label><input id="m7_loss" class="w-full border p-2 rounded"></div>
+        </div>
+        <div class="flex gap-3 mt-3">
+            <button onclick="calcModule7()" class="flex-1 bg-pink-600 text-white p-2 rounded">计算</button>
+            <button onclick="resetModule7()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div id="m7_result" class="mt-4 p-3 bg-gray-50 rounded"></div>
+    </div>
+
+    <!-- 模块8 盈亏 -->
+    <div id="module8" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5">盈亏计算器</h2>
+        <div class="space-y-3">
+            <div><label>买入价</label><input id="m8_buy" class="w-full border p-2 rounded"></div>
+            <div><label>卖出价</label><input id="m8_sell" class="w-full border p-2 rounded"></div>
+            <div><label>数量</label><input id="m8_cnt" class="w-full border p-2 rounded"></div>
+            <div><label>手续费%</label><input id="m8_fee" value="0.05" class="w-full border p-2 rounded"></div>
+        </div>
+        <div class="flex gap-3 mt-3">
+            <button onclick="calcModule8()" class="flex-1 bg-indigo-600 text-white p-2 rounded">计算</button>
+            <button onclick="resetModule8()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div id="m8_result" class="mt-4 p-3 bg-gray-50 rounded"></div>
+    </div>
+
+    <!-- 模块9 网格 -->
+    <div id="module9" class="bg-white p-6 rounded-lg shadow-md hidden">
+        <h2 class="text-xl font-bold text-center mb-5">网格交易计算器</h2>
+        <div class="space-y-3">
+            <div><label>最高价</label><input id="m9_high" class="w-full border p-2 rounded"></div>
+            <div><label>最低价</label><input id="m9_low" class="w-full border p-2 rounded"></div>
+            <div><label>网格份数</label><input id="m9_grid" class="w-full border p-2 rounded"></div>
+        </div>
+        <div class="flex gap-3 mt-3">
+            <button onclick="calcModule9()" class="flex-1 bg-yellow-600 text-white p-2 rounded">计算</button>
+            <button onclick="resetModule9()" class="flex-1 bg-gray-400 text-white p-2 rounded">清空</button>
+        </div>
+        <div id="m9_result" class="mt-4 p-3 bg-gray-50 rounded whitespace-pre-line"></div>
     </div>
 
 <script>
-    // 模块切换
     function showModule(num) {
-        document.getElementById('module1').classList.add('hidden');
-        document.getElementById('module2').classList.add('hidden');
-        document.getElementById('module3').classList.add('hidden');
-        document.getElementById('module4').classList.add('hidden');
+        for(let i=1;i<=9;i++) document.getElementById('module'+i).classList.add('hidden');
         document.getElementById('module'+num).classList.remove('hidden');
     }
 
     // 模块1
-    function calcModule1() {
-        let price = +document.getElementById('price1').value || 0;
-        let discount = +document.getElementById('discount1').value || 1;
-        let money = +document.getElementById('money1').value || 0;
-        let posRate = +document.getElementById('posRate1').value || 0;
-        let profitRate = +document.getElementById('profitRate1').value || 0;
-
-        let res1 = price * discount;
-        let res2 = money * (posRate / 100) * (profitRate / 100);
-        let res3 = res2 + money;
-
-        document.getElementById('m1_res1').innerText = res1.toFixed(4);
-        document.getElementById('m1_res2').innerText = res2.toFixed(4);
-        document.getElementById('m1_res3').innerText = res3.toFixed(4);
+    function calcModule1(){
+        let p=+document.getElementById('price1').value||0;
+        let d=+document.getElementById('discount1').value||1;
+        let m=+document.getElementById('money1').value||0;
+        let pr=+document.getElementById('posRate1').value||0;
+        let pf=+document.getElementById('profitRate1').value||0;
+        let r1=p*d,r2=m*(pr/100)*(pf/100),r3=r2+m;
+        document.getElementById('m1_res1').innerText=r1.toFixed(2);
+        document.getElementById('m1_res2').innerText=r2.toFixed(2);
+        document.getElementById('m1_res3').innerText=r3.toFixed(2);
     }
-    function resetModule1() {
-        document.getElementById('price1').value = '';
-        document.getElementById('discount1').value = '';
-        document.getElementById('money1').value = '';
-        document.getElementById('posRate1').value = '';
-        document.getElementById('profitRate1').value = '';
-        document.getElementById('m1_res1').innerText = '0.00';
-        document.getElementById('m1_res2').innerText = '0.00';
-        document.getElementById('m1_res3').innerText = '0.00';
+    function resetModule1(){
+        document.getElementById('price1').value='';
+        document.getElementById('discount1').value='';
+        document.getElementById('money1').value='';
+        document.getElementById('posRate1').value='';
+        document.getElementById('profitRate1').value='';
+        document.getElementById('m1_res1').innerText='0';
+        document.getElementById('m1_res2').innerText='0';
+        document.getElementById('m1_res3').innerText='0';
     }
 
     // 模块2
-    function calcModule2() {
-        let price = +document.getElementById('price2').value || 0;
-        let discount = +document.getElementById('discount2').value || 1;
-        let money = +document.getElementById('money2').value || 0;
-        let profitRate = +document.getElementById('profitRate2').value || 0;
-
-        let res1 = price * discount;
-        let res4 = money * (profitRate / 100);
-        let res5 = res4 + money;
-        let res6 = res1 > 0 ? Math.floor(money / res1) : 0;
-        let res7 = res1 > 0 ? Math.floor(money / res1 / 100) * 100 : 0;
-
-        document.getElementById('m2_res1').innerText = res1.toFixed(4);
-        document.getElementById('m2_res4').innerText = res4.toFixed(4);
-        document.getElementById('m2_res5').innerText = res5.toFixed(4);
-        document.getElementById('m2_res6').innerText = res6;
-        document.getElementById('m2_res7').innerText = res7;
+    function calcModule2(){
+        let p=+document.getElementById('price2').value||0;
+        let d=+document.getElementById('discount2').value||1;
+        let m=+document.getElementById('money2').value||0;
+        let pf=+document.getElementById('profitRate2').value||0;
+        let r1=p*d,r4=m*pf/100,r5=r4+m,r6=Math.floor(m/r1);
+        document.getElementById('m2_res1').innerText=r1.toFixed(2);
+        document.getElementById('m2_res4').innerText=r4.toFixed(2);
+        document.getElementById('m2_res5').innerText=r5.toFixed(2);
+        document.getElementById('m2_res6').innerText=r6;
     }
-    function resetModule2() {
-        document.getElementById('price2').value = '';
-        document.getElementById('discount2').value = '';
-        document.getElementById('money2').value = '';
-        document.getElementById('profitRate2').value = '';
-        document.getElementById('m2_res1').innerText = '0.00';
-        document.getElementById('m2_res4').innerText = '0.00';
-        document.getElementById('m2_res5').innerText = '0.00';
-        document.getElementById('m2_res6').innerText = '0';
-        document.getElementById('m2_res7').innerText = '0';
+    function resetModule2(){
+        document.getElementById('price2').value='';
+        document.getElementById('discount2').value='';
+        document.getElementById('money2').value='';
+        document.getElementById('profitRate2').value='';
+        document.getElementById('m2_res1').innerText='0';
+        document.getElementById('m2_res4').innerText='0';
+        document.getElementById('m2_res5').innerText='0';
+        document.getElementById('m2_res6').innerText='0';
     }
 
     // 模块3
     createRateInputs();
-    function createRateInputs() {
-        let days = parseInt(document.getElementById('compoundDays').value) || 1;
-        days = Math.max(1, Math.min(30, days));
-        let html = '';
-        for(let i=1; i<=days; i++) {
-            html += `<div class="w-20"><input placeholder="第${i}天%" type="number" class="day-rate w-full p-1 border rounded" value="10"></div>`;
-        }
-        document.getElementById('rateList').innerHTML = html;
+    function createRateInputs(){
+        let d=Math.max(1,Math.min(30,+document.getElementById('compoundDays').value));
+        let h='';for(let i=1;i<=d;i++)h+=`<input class="w-16 p-1 border" placeholder="${i}天%">`;
+        document.getElementById('rateList').innerHTML=h;
     }
-    function calcModule3() {
-        let ben = Number(document.getElementById('compoundMoney').value);
-        let days = Number(document.getElementById('compoundDays').value);
-        let rates = document.querySelectorAll('.day-rate');
-        if(!ben || ben <=0 || days <1 || days>30) { alert("输入合法数字（天数1-30）"); return; }
-        
-        let current = ben;
-        let html = "";
-        for(let i=0; i<days; i++) {
-            let r = Number(rates[i].value) || 0;
-            current = current * (1 + r/100);
-            html += `<div class="py-1">第 ${i+1} 天（${r}%）：${current.toFixed(2)}</div>`;
-        }
-        html += `<div class="font-bold text-red-600 mt-2 pt-2 border-t">✅ 最终本金：${current.toFixed(2)}</div>`;
-        document.getElementById('compoundResult').innerHTML = html;
+    function calcModule3(){
+        let b=+document.getElementById('compoundMoney').value;
+        let d=+document.getElementById('compoundDays').value;
+        let rs=document.querySelectorAll('#rateList input');
+        let cur=b,txt='';
+        for(let i=0;i<d;i++){let r=+rs[i].value||0;cur*=1+r/100;txt+=`第${i+1}天：${cur.toFixed(2)}\n`;}
+        document.getElementById('compoundResult').innerText=txt+'最终：'+cur.toFixed(2);
     }
-    function resetModule3() {
-        document.getElementById('compoundMoney').value = "";
-        document.getElementById('compoundDays').value = "10";
+    function resetModule3(){
+        document.getElementById('compoundMoney').value='';
+        document.getElementById('compoundDays').value='10';
         createRateInputs();
-        document.getElementById('compoundResult').innerHTML = "";
+        document.getElementById('compoundResult').innerText='';
     }
 
-    // 模块4：仓位计算器
-    function calcPosition() {
-        let cap = parseFloat(document.getElementById('cap').value);
-        let riskp = parseFloat(document.getElementById('riskp').value);
-        let entry = parseFloat(document.getElementById('entry').value);
-        let stop = parseFloat(document.getElementById('stop').value);
-
-        if (isNaN(cap) || isNaN(riskp) || isNaN(entry) || isNaN(stop) || cap <= 0 || riskp <= 0) {
-            document.getElementById('posResult').innerText = "请输入有效数字";
-            return;
-        }
-
-        let riskAmount = cap * (riskp / 100);
-        let riskPerShare = Math.abs(entry - stop);
-        if (riskPerShare === 0) {
-            document.getElementById('posResult').innerText = "入场价与止损价不能相同";
-            return;
-        }
-        let shares = riskAmount / riskPerShare;
-        let cost = shares * entry;
-
-        document.getElementById('posResult').innerText =
-            "✅ 风险金额：" + riskAmount.toFixed(2) + " 元\n" +
-            "✅ 建议仓位：" + shares.toFixed(1) + " 股\n" +
-            "✅ 占用资金：" + cost.toFixed(2) + " 元";
+    // 模块4
+    function calcPosition(){
+        let c=+document.getElementById('cap').value,r=+document.getElementById('riskp').value,e=+document.getElementById('entry').value,s=+document.getElementById('stop').value;
+        let ra=c*r/100,rps=Math.abs(e-s),sh=ra/rps;
+        document.getElementById('posResult').innerText=`风险：${ra.toFixed(2)}\n股数：${sh.toFixed(1)}\n占用：${(sh*e).toFixed(2)}`;
+    }
+    function calcKelly(){
+        let w=+document.getElementById('winp').value/100,wr=+document.getElementById('wr').value;
+        let f=(w*wr-(1-w))/wr;if(f<0)f=0;
+        document.getElementById('kellyResult').innerText=`凯利：${(f*100).toFixed(1)}%\n半凯利：${(f*50).toFixed(1)}%`;
+    }
+    function resetModule4(){
+        document.getElementById('cap').value='';
+        document.getElementById('riskp').value='';
+        document.getElementById('entry').value='';
+        document.getElementById('stop').value='';
+        document.getElementById('winp').value='';
+        document.getElementById('wr').value='';
+        document.getElementById('posResult').innerText='';
+        document.getElementById('kellyResult').innerText='';
     }
 
-    function calcKelly() {
-        let winp = parseFloat(document.getElementById('winp').value);
-        let wr = parseFloat(document.getElementById('wr').value);
-
-        if (isNaN(winp) || isNaN(wr) || winp <= 0 || wr <= 0) {
-            document.getElementById('kellyResult').innerText = "请输入有效数字";
-            return;
-        }
-
-        let p = winp / 100;
-        let q = 1 - p;
-        let f = (p * wr - q) / wr;
-        if (f < 0) f = 0;
-
-        document.getElementById('kellyResult').innerText =
-            "✅ 凯利最优仓位：" + (f * 100).toFixed(1) + "%\n" +
-            "✅ 半凯利（保守）：" + (f * 50).toFixed(1) + "%";
+    // 模块5
+    function calcModule5(){
+        let mon=+document.getElementById('m5_month').value;
+        let rate=+document.getElementById('m5_rate').value/100;
+        let year=+document.getElementById('m5_year').value;
+        let n=year*12,r=rate/12;
+        let total=mon*(Math.pow(1+r,n)-1)/r;
+        let inAmount=mon*n,profit=total-inAmount;
+        document.getElementById('m5_result').innerText=`投入：${inAmount.toFixed(2)}\n本息：${total.toFixed(2)}\n收益：${profit.toFixed(2)}`;
+    }
+    function resetModule5(){
+        document.getElementById('m5_month').value='';
+        document.getElementById('m5_rate').value='';
+        document.getElementById('m5_year').value='';
+        document.getElementById('m5_result').innerText='';
     }
 
-    function resetModule4() {
-        document.getElementById('cap').value = '';
-        document.getElementById('riskp').value = '';
-        document.getElementById('entry').value = '';
-        document.getElementById('stop').value = '';
-        document.getElementById('winp').value = '';
-        document.getElementById('wr').value = '';
-        document.getElementById('posResult').innerText = '';
-        document.getElementById('kellyResult').innerText = '';
+    // 模块6
+    function calcModule6(){
+        let oc=+document.getElementById('m6_old_cnt').value;
+        let op=+document.getElementById('m6_old_p').value;
+        let ac=+document.getElementById('m6_add_cnt').value;
+        let ap=+document.getElementById('m6_add_p').value;
+        let total=(oc*op + ac*ap)/(oc+ac);
+        document.getElementById('m6_result').innerText='新成本价：'+total.toFixed(3);
+    }
+    function resetModule6(){
+        document.getElementById('m6_old_cnt').value='';
+        document.getElementById('m6_old_p').value='';
+        document.getElementById('m6_add_cnt').value='';
+        document.getElementById('m6_add_p').value='';
+        document.getElementById('m6_result').innerText='';
+    }
+
+    // 模块7
+    function calcModule7(){
+        let c=+document.getElementById('m7_cost').value;
+        let p=+document.getElementById('m7_profit').value;
+        let l=+document.getElementById('m7_loss').value;
+        let pr=c*(1+p/100),ls=c*(1-l/100);
+        document.getElementById('m7_result').innerText=`止盈价：${pr.toFixed(3)}\n止损价：${ls.toFixed(3)}`;
+    }
+    function resetModule7(){
+        document.getElementById('m7_cost').value='';
+        document.getElementById('m7_profit').value='';
+        document.getElementById('m7_loss').value='';
+        document.getElementById('m7_result').innerText='';
+    }
+
+    // 模块8
+    function calcModule8(){
+        let b=+document.getElementById('m8_buy').value;
+        let s=+document.getElementById('m8_sell').value;
+        let c=+document.getElementById('m8_cnt').value;
+        let f=+document.getElementById('m8_fee').value/100;
+        let profit=(s-b)*c - (b*c*f + s*c*f);
+        document.getElementById('m8_result').innerText='净盈亏：'+profit.toFixed(2);
+    }
+    function resetModule8(){
+        document.getElementById('m8_buy').value='';
+        document.getElementById('m8_sell').value='';
+        document.getElementById('m8_cnt').value='';
+        document.getElementById('m8_fee').value='0.05';
+        document.getElementById('m8_result').innerText='';
+    }
+
+    // 模块9
+    function calcModule9(){
+        let h=+document.getElementById('m9_high').value;
+        let l=+document.getElementById('m9_low').value;
+        let g=+document.getElementById('m9_grid').value;
+        let step=(h-l)/g;
+        let txt='网格价差：'+step.toFixed(3)+'\n';
+        for(let i=0;i<=g;i++)txt+='价格'+(i+1)+'：'+(l+step*i).toFixed(3)+'\n';
+        document.getElementById('m9_result').innerText=txt;
+    }
+    function resetModule9(){
+        document.getElementById('m9_high').value='';
+        document.getElementById('m9_low').value='';
+        document.getElementById('m9_grid').value='';
+        document.getElementById('m9_result').innerText='';
     }
 </script>
 </body>
